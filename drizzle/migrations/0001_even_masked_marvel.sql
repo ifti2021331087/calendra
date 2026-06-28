@@ -1,0 +1,1 @@
+ALTER TABLE "schedule_availabilities" ALTER COLUMN "day_of_week" SET NOT NULL;
