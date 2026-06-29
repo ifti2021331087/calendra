@@ -25,7 +25,7 @@ export const EventTable = pgTable("events", {
 export const ScheduleTable = pgTable("schedules", {
     id: uuid("id").primaryKey().defaultRandom(),
     timezone: text("timezone").notNull(),
-    clerkUserId: text("clerk_user_id").notNull(),
+    clerkUserId: text("clerk_user_id").unique().notNull(),
     createdAt,
     updatedAt,
 })

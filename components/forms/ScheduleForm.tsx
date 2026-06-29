@@ -14,8 +14,6 @@ import { Plus, X } from "lucide-react"
 import { Input } from "../ui/input"
 import { toast } from "sonner"
 import { saveSchedule } from "@/server/actions/schedule"
-
-// Import the custom field components based on your example
 import {
   Field,
   FieldError,
@@ -77,7 +75,6 @@ export function ScheduleForm({
             className="flex gap-6 flex-col"
             onSubmit={form.handleSubmit(onSubmit)}
         >
-            {/* Show form-level error if any */}
             {form.formState.errors.root && (
                 <div className="text-destructive text-sm font-medium">
                     {form.formState.errors.root.message}
@@ -85,7 +82,6 @@ export function ScheduleForm({
             )}
 
             <FieldGroup>
-                {/* Timezone selection */}
                 <Controller
                     name="timezone"
                     control={form.control}
@@ -113,8 +109,8 @@ export function ScheduleForm({
                 />
             </FieldGroup>
 
-            {/* Availability form grid grouped by day */}
-            <div className="grid grid-cols-[auto_auto] gap-y-6">
+            {/* FIXED LAYOUT: 2 columns, with a fixed width for the Day column (e.g., 75px) */}
+            <div className="grid grid-cols-[75px_1fr] gap-y-6 gap-x-4">
                 {DAYS_OF_WEEK_IN_ORDER.map(dayOfWeek => (
                     <Fragment key={dayOfWeek}>
                         {/* Day label */}
@@ -122,12 +118,12 @@ export function ScheduleForm({
                             {dayOfWeek.substring(0, 3)}
                         </div>
 
-                        {/* Add availability for a specific day */}
+                        {/* Button and Availability Stack */}
                         <div className="flex flex-col gap-2">
                             <Button
                                 type="button"
-                                className="size-6 p-1 cursor-pointer hover:scale-110"
-                                variant="outline"
+                                className="size-6 p-1 cursor-pointer hover:scale-110 w-max"
+                                variant="ghost"
                                 onClick={() => {
                                     addAvailability({
                                         dayOfWeek,
@@ -136,16 +132,14 @@ export function ScheduleForm({
                                     })
                                 }}
                             >
-                                <Plus color="red" />
+                                <Plus className="text-destructive size-4" />
                             </Button>
 
-                            {/* Render availability entries for this day */}
+                            {/* Render availability entries for this day underneath the plus button */}
                             {groupedAvailabilityFields[dayOfWeek]?.map(
                                 (field, labelIndex) => (
                                     <div className="flex flex-col gap-1" key={field.id}>
                                         <div className="flex gap-2 items-start">
-                                            
-                                            {/* Start time input */}
                                             <Controller
                                                 name={`availabilities.${field.index}.startTime`}
                                                 control={form.control}
@@ -166,7 +160,6 @@ export function ScheduleForm({
                                             
                                             <span className="mt-2 text-muted-foreground">-</span>
                                             
-                                            {/* End time input */}
                                             <Controller
                                                 name={`availabilities.${field.index}.endTime`}
                                                 control={form.control}
@@ -185,7 +178,6 @@ export function ScheduleForm({
                                                 )}
                                             />
 
-                                            {/* Remove availability */}
                                             <Button
                                                 type="button"
                                                 className="size-6 p-1 mt-0.5 cursor-pointer hover:bg-red-900"
@@ -196,7 +188,6 @@ export function ScheduleForm({
                                             </Button>
                                         </div>
 
-                                        {/* Show safe field-level validation messages for row-level conflicts */}
                                         {form.formState.errors.availabilities?.[field.index]?.root?.message && (
                                             <p className="text-[0.8rem] font-medium text-destructive mt-1">
                                                 {form.formState.errors.availabilities[field.index]?.root?.message}
@@ -210,7 +201,6 @@ export function ScheduleForm({
                 ))}
             </div>
 
-            {/* Save button */}
             <div className="flex gap-2 justify-start pt-4">
                 <Button
                     className="cursor-pointer hover:scale-105 bg-blue-400 hover:bg-blue-600"

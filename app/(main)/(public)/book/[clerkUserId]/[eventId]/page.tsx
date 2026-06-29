@@ -1,3 +1,4 @@
+import MeetingForm from "@/components/forms/MeetingForm";
 import NoTimeSlots from "@/components/NoTimeSlots";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { getEvent } from "@/server/actions/events";
@@ -51,11 +52,11 @@ export default async function BookingPage({ params }: {
                 )}
             </CardHeader>
             <CardContent>
-                {/* <MeetingForm
+                <MeetingForm
                     validTimes={validTimes}
                     eventId={event.id}
                     clerkUserId={clerkUserId}
-                /> */}
+                />
             </CardContent>
         </Card>
     )

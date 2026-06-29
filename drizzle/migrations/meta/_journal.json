@@ -15,6 +15,13 @@
       "when": 1782573521604,
       "tag": "0001_even_masked_marvel",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1782747315304,
+      "tag": "0002_lean_northstar",
+      "breakpoints": true
     }
   ]
 }

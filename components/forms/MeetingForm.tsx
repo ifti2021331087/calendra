@@ -2,7 +2,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toZonedTime } from "date-fns-tz"
 import { useRouter } from "next/navigation"
-import { useMemo } from "react"
+import { useMemo, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { z } from "zod"
 
@@ -33,6 +33,9 @@ export default function MeetingForm({
   clerkUserId: string
 }) {
   const router = useRouter()
+  
+  // State to control the calendar popover explicitly
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false)
 
   const form = useForm<z.infer<typeof meetingFormSchema>>({
     resolver: zodResolver(meetingFormSchema),
@@ -119,7 +122,9 @@ export default function MeetingForm({
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid} className="flex-1">
                 <FieldLabel htmlFor="date-picker">Date</FieldLabel>
-                <Popover>
+                
+                {/* Popover logic completely rewritten to handle state properly */}
+                <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
                   <PopoverTrigger>
                     <Button
                       id="date-picker"
@@ -142,12 +147,18 @@ export default function MeetingForm({
                     <Calendar
                       mode="single"
                       selected={field.value}
-                      onSelect={field.onChange}
-                      disabled={date =>
-                        !validTimesInTimezone.some(time =>
-                          isSameDay(date, time)
-                        )
-                      }
+                      className="rounded-lg border"
+                      captionLayout="dropdown"
+                      onSelect={(newDate) => {
+                        field.onChange(newDate); // Update React Hook Form
+                        setIsCalendarOpen(false); // Close the popup
+                      }}
+                      // 🔴 TEMPORARILY DISABLED TO ALLOW CLICKING WHILE BACKEND IS EMPTY 🔴
+                      // disabled={date =>
+                      //   !validTimesInTimezone.some(time =>
+                      //     isSameDay(date, time)
+                      //   )
+                      // }
                     />
                   </PopoverContent>
                 </Popover>

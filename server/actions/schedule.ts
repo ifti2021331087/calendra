@@ -82,6 +82,7 @@ export async function saveSchedule(
 
   } catch (error: any) {
     // Catch and throw an error with a readable message
+    console.error("🔥🔥🔥 DB SAVE ERROR: ", error);
     throw new Error(`Failed to save schedule: ${error.message || error}`)
   } finally {
     // Revalidate the /schedule path to update the cache and reflect the new data
