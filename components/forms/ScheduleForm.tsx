@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useFieldArray, useForm, Controller } from "react-hook-form"
 import { z } from "zod"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
-import { formateTimezoneOffset } from "@/lib/formatters"
+import { formatTimezoneOffset } from "@/lib/formatters"
 import { Fragment } from "react"
 import { Button } from "../ui/button"
 import { Plus, X } from "lucide-react"
@@ -100,7 +100,7 @@ export function ScheduleForm({
                                     {Intl.supportedValuesOf("timeZone").map(timezone => (
                                         <SelectItem key={timezone} value={timezone}>
                                             {timezone}
-                                            {` (${formateTimezoneOffset(timezone)})`}
+                                            {` (${formatTimezoneOffset(timezone)})`}
                                         </SelectItem>
                                     ))}
                                 </SelectContent>
