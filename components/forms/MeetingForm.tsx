@@ -125,23 +125,20 @@ export default function MeetingForm({
                 
                 {/* Popover logic completely rewritten to handle state properly */}
                 <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
-                  <PopoverTrigger>
-                    <Button
-                      id="date-picker"
-                      aria-invalid={fieldState.invalid}
-                      variant="outline"
-                      className={cn(
-                        "pl-3 text-left font-normal flex w-full",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      {field.value ? (
-                        formatDate(field.value)
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
+                  <PopoverTrigger
+                    id="date-picker"
+                    aria-invalid={fieldState.invalid}
+                    className={cn(
+                      "pl-3 text-left font-normal flex w-full",
+                      !field.value && "text-muted-foreground"
+                    )}
+                  >
+                    {field.value ? (
+                      formatDate(field.value)
+                    ) : (
+                      <span>Pick a date</span>
+                    )}
+                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
@@ -153,12 +150,11 @@ export default function MeetingForm({
                         field.onChange(newDate); // Update React Hook Form
                         setIsCalendarOpen(false); // Close the popup
                       }}
-                      // 🔴 TEMPORARILY DISABLED TO ALLOW CLICKING WHILE BACKEND IS EMPTY 🔴
-                      // disabled={date =>
-                      //   !validTimesInTimezone.some(time =>
-                      //     isSameDay(date, time)
-                      //   )
-                      // }
+                      disabled={date =>
+                        !validTimesInTimezone.some(time =>
+                          isSameDay(date, time)
+                        )
+                      }
                     />
                   </PopoverContent>
                 </Popover>
